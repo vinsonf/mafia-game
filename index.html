@@ -5,64 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
+<script src="main.js">
+    
 
-  console.log(socket.id);
-
-    socket.on('connect', function() {
-        console.log('connected', socket.id);
-        const h1 = document.querySelector('h1');
-        h1.innerHTML = socket.id;
-    });
-
-    socket.on('all-players', function(players) {
-        console.log(players);
-        document.querySelector('#players').innerHTML = '';
-        players.forEach(function(player) {
-            const li = document.createElement('li');
-            li.innerHTML = player;
-            document.querySelector('#players').appendChild(li);
-            li.addEventListener('click', function() {
-                socket.emit('message',{to: player, message: socket.id});
-            });
-        });
-    });
-
-    socket.on('message', function(message) {
-        console.log(message);
-    });
-
-
-  socket.emit('join', {
-    room: 'room1',
-    name: 'user1'
-  });
-
-  socket.on('hey thanks for joining us', data => {
-    console.log(data);
-  });
-
-  function submitUsername() {
-    const username = document.querySelector('#username').value;
-    socket.emit('username', username);
-  }
-
-  socket.on('player-created', data => {
-    const li = document.createElement('li');
-    li.innerHTML = data;
-    document.querySelector('#users').appendChild(li);
-  });
-
-  socket.on('role', data => {
-      console.log('got role', data);
-    document.querySelector('#role').innerHTML = data;
-  });
-
-  function startGame() {
-    socket.emit('start-game');
-  }
 </script>
 </head>
 <body>
@@ -76,6 +23,12 @@
     
     <p>Do not push until everyone is ready</p>
 
-    <button onclick="startGame()">Game Start</button>
+    <button id="startgame" onclick="startGame()">Game Start</button>
+
+    <p id="story"></p>
+
+    <ul id="choices">
+        
+    </ul>
 </body>
 </html>
